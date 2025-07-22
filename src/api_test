@@ -1,0 +1,27 @@
+# test_tarkov_api.py
+from src.tarkov_api import TarkovDevAPI
+
+# Initialize API
+api = TarkovDevAPI()
+
+# Test fetching a specific item
+print("Testing item lookup...")
+item = api.get_item_by_name("Graphics Card")
+
+if item:
+    print(f"Found: {item['name']}")
+    print(f"Average 24h price: {item.get('avg24hPrice', 'N/A')} rubles")
+    
+    # Get best trader price
+    trader_price = api.get_best_trader_price("Graphics Card")
+    if trader_price:
+        print(f"Best trader: {trader_price['trader']} - {trader_price['price']} rubles")
+else:
+    print("Item not found!")
+
+# Test downloading an image
+print("\nTesting image download...")
+if item and item.get('gridImageLink'):
+    image_path = api.download_item_image(item['name'], item['gridImageLink'])
+    if image_path:
+        print(f"Image saved to: {image_path}")
