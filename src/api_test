@@ -25,3 +25,17 @@ if item and item.get('gridImageLink'):
     image_path = api.download_item_image(item['name'], item['gridImageLink'])
     if image_path:
         print(f"Image saved to: {image_path}")
+
+item_name = "Salewa first aid kit"
+item = api.get_item_by_name(item_name)
+
+print(f"Full API data for '{item_name}':\n")
+import json
+print(json.dumps(item, indent=2, ensure_ascii=False))
+
+if item and 'sellFor' in item:
+    print("\nSellFor array:")
+    for sell in item['sellFor']:
+        print(sell)
+else:
+    print("No sellFor data found.")

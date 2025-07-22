@@ -1,2 +1,6 @@
 opencv-python
-requests 
+requests
+pillow
+mss
+numpy
+keyboard 

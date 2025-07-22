@@ -101,6 +101,16 @@ class TarkovScanner:
                     time.sleep(self.scan_interval)
                     continue
                 
+                # Debug: Save a screenshot occasionally to verify capture is working
+                if hasattr(self, '_debug_counter'):
+                    self._debug_counter += 1
+                else:
+                    self._debug_counter = 0
+                
+                if self._debug_counter % 30 == 0:  # Every 30 seconds
+                    self.screen_capture.save_screenshot(screenshot, "debug_screenshot.png")
+                    print("Debug screenshot saved")
+                
                 # Find inventory region
                 inventory_region = self.inventory_detector.find_inventory_region(screenshot)
                 if not inventory_region:
@@ -140,6 +150,10 @@ class TarkovScanner:
                 if detected_items:
                     print(f"Detected {len(detected_items)} items")
                     self.update_queue.put({"items": detected_items})
+                else:
+                    print("No items detected in this scan")
+                    # Send empty list to clear overlay
+                    self.update_queue.put({"items": []})
                 
             except Exception as e:
                 print(f"Error in scan loop: {e}")
@@ -184,6 +198,10 @@ class TarkovScanner:
         # Wait for scan thread to finish
         if self.scan_thread and self.scan_thread.is_alive():
             self.scan_thread.join(timeout=2)
+            
+        # Clean up screen capture
+        if hasattr(self, 'screen_capture'):
+            self.screen_capture.cleanup()
             
         # Close the overlay
         if self.overlay:

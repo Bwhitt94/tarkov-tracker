@@ -163,7 +163,7 @@ class PriceOverlay:
         
     def close(self):
         """Closes the overlay window."""
-        self.root.quit()
+        self.root.withdraw()  # Hide the window instead of quitting
         
     def run(self):
         """Starts the overlay window main loop."""
