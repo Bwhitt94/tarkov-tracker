@@ -1,0 +1,10 @@
+Tarkov Item Tracker - Changelog
+==============================
+
+v1.0.0 (2024-06-09)
+-------------------
+- Initial public release
+- Item database builder with price/image download
+- Modern tkinter GUI for search, filter, and viewing
+- Git versioned, .gitignore, and requirements.txt
+- All core features implemented 
